@@ -36,7 +36,7 @@ void Window :: init() {
         }
 
         //Create window
-        gWindow = SDL_CreateWindow( "Pang Demo", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+        gWindow = SDL_CreateWindow( "Game of Life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
         if( gWindow == NULL )
         {
             printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -81,7 +81,7 @@ Window :: ~Window() {
 
 Window* Window ::getInstance() {
     if (window == NULL)
-        window = new Window(640,480);
+        window = new Window(1280,720);
     return window;
 }
 
