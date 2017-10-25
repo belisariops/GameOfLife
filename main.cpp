@@ -3,13 +3,14 @@
 #include "Canvas.h"
 
 int main() {
+
     /* SDL2 Singleton Window */
     Window *window = Window :: getInstance();
 
     /* Variable to register all the events in the window */
     SDL_Event event;
 
-    Canvas canvas = Canvas(4,4,720, 1280);
+    Canvas canvas = Canvas(72,128,720, 1280);
 
     /*Game loop*/
     do {
@@ -24,9 +25,12 @@ int main() {
 
         }
 
-        SDL_SetRenderDrawColor(Window::getInstance()->getRenderer(), 255, 255, 255, 255);
-        canvas.draw();
         window->update();
+        // Clear the entire screen to our selected color.
+        SDL_RenderClear(window->getRenderer());
+        SDL_SetRenderDrawColor(Window::getInstance()->getRenderer(), 0, 0, 0, 200);
+
+        canvas.draw();
 
     } while (!window->getQuitState());
 

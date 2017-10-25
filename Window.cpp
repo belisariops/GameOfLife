@@ -94,6 +94,9 @@ void Window ::setQuitState(bool boolean) {
 }
 
 void Window :: update() {
+    // Select the color for drawing. It is set to red here.
+    SDL_SetRenderDrawColor(this->gRenderer, 200, 200, 200, 255);
+
     SDL_RenderPresent(this->gRenderer);
 }
 
