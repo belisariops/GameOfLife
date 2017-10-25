@@ -18,6 +18,8 @@ public:
     void setValue(int heightPosition,int widthPosition,int value);
     double getValues(int heightPosition,int widthPosition);
 
+    void draw(int screenHeight, int screenWidth);
+
 private:
     int height,width;
     int* values;

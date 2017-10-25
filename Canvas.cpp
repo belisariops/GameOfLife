@@ -30,4 +30,6 @@ void Canvas::draw() {
     for (int w = 0; w <= windowWidth; w += deltaWidth) {
         SDL_RenderDrawLine(renderer, w, 0, w, windowHeight);
     }
+
+    grid->draw(windowHeight,windowWidth);
 }
