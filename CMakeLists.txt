@@ -8,5 +8,10 @@ set(SOURCE_FILES main.cpp
         Timer.cpp
         Timer.h
         Window.cpp
-        Window.h Grid.cpp Grid.h Canvas.cpp Canvas.h)
+        Window.h
+        Grid.cpp
+        Grid.h
+        Canvas.cpp
+        Canvas.h
+        Utils.cpp)
 add_executable(GameOfLife ${SOURCE_FILES})

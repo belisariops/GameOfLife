@@ -12,9 +12,12 @@ class Canvas {
 public:
     Canvas(int height, int width, int screenWidth, int screenHeight);
     ~Canvas();
+    void setGrid(Grid *other);
+    void update();
     void draw();
 private:
-    Grid *grid;
+    Grid *currentGrid;
+    Grid *nextGrid;
     int windowHeight;
     int windowWidth;
 };
