@@ -1,17 +1,19 @@
 #include <iostream>
 #include "Window.h"
-#include "Canvas.h"
+#include "CPUCanvas.h"
+#include "OpenCLCanvas.h"
 
 int main() {
 
     /* SDL2 Singleton Window */
     Window *window = Window :: getInstance();
 
-    /* Variable to register all the events in the window */
+    /* Variable needed to get all events*/
     SDL_Event event;
 
     /*Canvas that has the Conways Game of Life logic */
-    Canvas canvas = Canvas(36,64,720, 1280);
+    CPUCanvas canvas = CPUCanvas(36,64,720, 1280);
+    OpenCLCanvas openCLCanvas = OpenCLCanvas(36,64,720,1280);
 
     Timer fpsTimer;
     Timer capTimer;
@@ -20,6 +22,7 @@ int main() {
     /*Game loop*/
     do {
         capTimer.start();
+        //Read events
         while( SDL_PollEvent( &event ) != 0 )
         {
             //User requests quit
@@ -30,28 +33,31 @@ int main() {
 
         }
 
+        //Update SDL2 window, to render the draw cavnas
         window->update();
+
+
         // Clear the entire screen to our selected color.
         SDL_RenderClear(window->getRenderer());
         SDL_SetRenderDrawColor(Window::getInstance()->getRenderer(), 0, 0, 0, 200);
+
+        //Update cells in canvas and then draw the living ones
         canvas.update();
         canvas.draw();
 
-        //If frame finished early
+
+        //If frame finished early, add a delay so it can be seen
         int frameTicks = capTimer.getTicks();
         if( frameTicks < window->getScreenTicks() )
         {
             //Wait remaining time
             SDL_Delay( window->getScreenTicks() - frameTicks );
         }
-        //cout<< capTimer.getTicks()<<endl;
-        //cout<<fpsTimer.getTicks()<<"\n";
-        if (fpsTimer.getTicks() >1000.f){
-            fpsTimer.start();
-        }
+
 
 
     } while (!window->getQuitState());
 
+    delete(window);
     return 0;
 }

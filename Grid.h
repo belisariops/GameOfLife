@@ -20,13 +20,13 @@ public:
     int getWidth()const;
     int getHeight()const;
     void setValue(int heightPosition,int widthPosition,int value);
-    double getValues(int heightPosition,int widthPosition);
+    int getValue(int heightPosition,int widthPosition);
+    int *getValues();
     void draw(int screenHeight, int screenWidth);
     void loadFromFile(std::string path);
-
+    int* values;
 private:
     int height,width;
-    int* values;
 
 };
 

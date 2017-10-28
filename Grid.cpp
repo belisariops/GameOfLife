@@ -1,5 +1,5 @@
 //
-// Created by belisariops on 10/24/17.
+// Created by Belisario Panay on 10/24/17.
 //
 
 #include <SDL2/SDL_render.h>
@@ -32,7 +32,7 @@ void Grid::setValue(int heightPosition, int widthPosition, int value) {
     values[width*heightPosition + widthPosition] = value;
 }
 
-double Grid::getValues(int heightPosition, int widthPosition) {
+int Grid::getValue(int heightPosition, int widthPosition) {
     return values[width*heightPosition + widthPosition];
 }
 
@@ -103,6 +103,10 @@ void Grid::loadFromFile(std::string path) {
             setValue(i + initialWidthPosition,j + iinitialHeightPosition,block[j][i]);
         }
     }
+}
+
+int *Grid::getValues() {
+    return values;
 }
 
 

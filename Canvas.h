@@ -11,15 +11,17 @@
 class Canvas {
 public:
     Canvas(int height, int width, int screenWidth, int screenHeight);
-    ~Canvas();
+
+    virtual ~Canvas();
     void setGrid(Grid *other);
-    void update();
     void draw();
+    virtual void update() = 0;
 private:
-    Grid *currentGrid;
-    Grid *nextGrid;
     int windowHeight;
     int windowWidth;
+protected:
+    Grid *currentGrid;
+    Grid *nextGrid;
 };
 
 

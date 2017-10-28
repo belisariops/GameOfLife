@@ -1,5 +1,5 @@
 //
-// Created by belisariops on 6/15/16.
+// Created by Belisario Panay on 6/15/16.
 //
 
 #include "Window.h"
@@ -13,7 +13,7 @@ Window* Window::window=NULL;
 Window :: Window(int width, int height) {
     SCREEN_WIDTH=width;
     SCREEN_HEIGHT=height;
-    SCREEN_FPS = 30;
+    SCREEN_FPS = 20;
     SCREEN_TICK_PER_FRAME = 1000/SCREEN_FPS;
     quitState =false;
     init();
@@ -95,7 +95,7 @@ void Window ::setQuitState(bool boolean) {
 
 void Window :: update() {
     // Select the color for drawing. It is set to red here.
-    SDL_SetRenderDrawColor(this->gRenderer, 200, 200, 200, 255);
+    SDL_SetRenderDrawColor(this->gRenderer, 220, 220, 220, 255);
 
     SDL_RenderPresent(this->gRenderer);
 }
