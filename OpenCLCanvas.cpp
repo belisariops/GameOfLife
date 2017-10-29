@@ -69,7 +69,7 @@ void OpenCLCanvas::update() {
 
         // Execute the kernel
         cl::NDRange global( N_ELEMENTS );
-        cl::NDRange local( 256 );
+        cl::NDRange local( 1 );
         queue.enqueueNDRangeKernel( kernel, cl::NullRange, global, local );
 
         // Copy the output data back to the host

@@ -13,7 +13,7 @@ Window* Window::window=NULL;
 Window :: Window(int width, int height) {
     SCREEN_WIDTH=width;
     SCREEN_HEIGHT=height;
-    SCREEN_FPS = 30;
+    SCREEN_FPS = 20;
     SCREEN_TICK_PER_FRAME = 1000/SCREEN_FPS;
     quitState =false;
     init();
