@@ -32,6 +32,7 @@ private:
     cl::Kernel kernel;
     cl::Buffer bufferCurrentGrid;
     cl::Buffer bufferNextGrid;
+    cl::Buffer bufferCanvasDimensions;
     cl::CommandQueue queue;
 };
 

@@ -2,6 +2,7 @@
 // Created by Belisario Panay on 10/24/17.
 //
 
+#include <climits>
 #include <SDL2/SDL_render.h>
 #include <fstream>
 #include <vector>
@@ -12,6 +13,9 @@
 
 Grid::Grid(int height, int width) : height(height),width(width)  {
     this->values = new int[height * width];
+    for (int i = 0; i < height * width; ++i) {
+        values[i] = 0;
+    }
 }
 
 Grid::~Grid() {
@@ -96,11 +100,12 @@ void Grid::loadFromFile(std::string path) {
         block.push_back(l);
     }
 
-    int iinitialHeightPosition = (width - block.size())/2;
-    int initialWidthPosition = (height - block[0].size())/2;
+    unsigned long initialHeightPosition = (width - block.size())/2;
+    unsigned long initialWidthPosition = (height - block[0].size())/2;
     for (int i = 0; i < block.size(); ++i) {
         for (int j = 0; j < block[i].size(); ++j) {
-            setValue(i + initialWidthPosition,j + iinitialHeightPosition,block[j][i]);
+            setValue( (i + initialWidthPosition) & INT_MAX,(j + initialHeightPosition) & INT_MAX,block[i][j]);
+
         }
     }
 }

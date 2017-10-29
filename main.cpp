@@ -18,7 +18,7 @@ int main() {
     Timer fpsTimer;
     Timer capTimer;
     fpsTimer.start();
-
+    std::cout << (!-1) << std::endl;
     /*Game loop*/
     do {
         capTimer.start();
@@ -42,10 +42,11 @@ int main() {
         SDL_SetRenderDrawColor(Window::getInstance()->getRenderer(), 0, 0, 0, 200);
 
         //Update cells in canvas and then draw the living ones
-        canvas.update();
-        canvas.draw();
+//        canvas.update();
+//        canvas.draw();
 
-
+        openCLCanvas.draw();
+        openCLCanvas.update();
         //If frame finished early, add a delay so it can be seen
         int frameTicks = capTimer.getTicks();
         if( frameTicks < window->getScreenTicks() )

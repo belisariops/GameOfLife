@@ -30,7 +30,11 @@ OpenCLCanvas::OpenCLCanvas(int height, int width, int screenWidth, int screenHei
         // Create the memory buffers
         bufferCurrentGrid = cl::Buffer(context, CL_MEM_READ_ONLY, N_ELEMENTS * sizeof(int));
         bufferNextGrid = cl::Buffer(context, CL_MEM_READ_ONLY, N_ELEMENTS * sizeof(int));
-
+        bufferCanvasDimensions = cl::Buffer(context, CL_MEM_READ_ONLY, 2* sizeof(int));
+        int *canvasDimensions = new int[2];
+        canvasDimensions[0] = currentGrid->getHeight();
+        canvasDimensions[1] = currentGrid->getWidth();
+        queue.enqueueWriteBuffer(bufferCanvasDimensions, CL_FALSE, 0, 2 * sizeof(int), canvasDimensions);
 
         // Read the program source
         std::ifstream sourceFile("kernel.cl");
@@ -49,6 +53,8 @@ OpenCLCanvas::OpenCLCanvas(int height, int width, int screenWidth, int screenHei
         catch (cl::Error err) {
             std::cout << "Error: " << err.what() << "(" << err.err() << ")" << std::endl;
         }
+
+
 }
 
 void OpenCLCanvas::update() {
@@ -59,6 +65,7 @@ void OpenCLCanvas::update() {
         // Set the kernel arguments
         kernel.setArg( 0, bufferCurrentGrid );
         kernel.setArg( 1, bufferNextGrid );
+        kernel.setArg( 2, bufferCanvasDimensions );
 
         // Execute the kernel
         cl::NDRange global( N_ELEMENTS );
@@ -67,8 +74,11 @@ void OpenCLCanvas::update() {
 
         // Copy the output data back to the host
         queue.enqueueReadBuffer( bufferNextGrid, CL_TRUE, 0, N_ELEMENTS * sizeof(int), nextGrid->values );
-
-
+        /*The grid that is draw is updated*/
+        delete(currentGrid);
+        currentGrid = nextGrid;
+        /*A new grid is created for the next iteration*/
+        nextGrid = new Grid(currentGrid->getHeight(),currentGrid->getWidth());
     }
     catch (cl::Error err) {
         std::cout << "Error: " << err.what() << "(" << err.err() << ")" << std::endl;

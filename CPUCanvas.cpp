@@ -17,23 +17,14 @@ void CPUCanvas::update() {
             /*The neighbours of the dead cell are checked*/
             for (int i = -1; i < 2; ++i) {
                 for (int j = -1; j < 2; ++j) {
-                    if (i == 0 && j == 0) {
-                        continue;
-                    }
-                    if (currentGrid->getValue(mod(h + i, currentGrid->getHeight()), mod(w + j, currentGrid->getWidth())) == 1) {
-                        aliveNeighbours++;
-                    }
+                    aliveNeighbours += (i | j ) && ( currentGrid->getValue(mod(h + i, currentGrid->getHeight()), mod(w + j, currentGrid->getWidth())));
                 }
             }
-            nextGrid->setValue(h,w,0);
 
-            /*Creation of a new cell*/
-            if (currentGrid->getValue(h,w) == 0 && (aliveNeighbours == 3 || aliveNeighbours == 6))
-                nextGrid->setValue(h,w,1);
+            /*Set state of the cell in the next frame*/
+            nextGrid->setValue(h,w,(currentGrid->getValue(h,w) == 0 && (aliveNeighbours == 3 || aliveNeighbours == 6))
+                                || currentGrid->getValue(h,w) == 1 && (aliveNeighbours == 2 || aliveNeighbours == 3));
 
-                /*Creation of a new cell*/
-            else if (currentGrid->getValue(h,w) == 1 && (aliveNeighbours == 2 || aliveNeighbours == 3))
-                nextGrid->setValue(h,w,1);
 
         }
     }
