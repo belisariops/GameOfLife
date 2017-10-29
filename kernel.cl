@@ -9,7 +9,7 @@ kernel void update( global int* A, global int* B , global int* canvasDimensions)
 
     int h,w;
     h = index / canvasDimensions[1];
-    w = index - (h * canvasDimensions[1]);
+    w = index % canvasDimensions[1];
 
     /*The neighbours of the dead cell are checked*/
     for (int i = -1; i < 2; ++i) {

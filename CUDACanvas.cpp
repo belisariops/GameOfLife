@@ -2,7 +2,6 @@
 // Created by belisariops on 10/28/17.
 //
 
-#include <iostream>
 #include "CUDACanvas.h"
 
 extern void updateCuda(int *A, int *B, int height, int width) ;

@@ -1,10 +1,7 @@
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+
 #include <device_launch_parameters.h>
 #include <cuda_runtime_api.h>
-#include <iostream>
 
 __device__ int mod(int a, int b) {
     return a >= 0 ? a%b :  ( b - abs ( a%b ) ) % b;
@@ -17,9 +14,9 @@ __global__ void update(int *A, int *B, int height, int width) {
     if (index < height*width) {
         int aliveNeighbours = 0;
 
-        int h, w;
-        h = index / width;
-        w = index - (h * width);
+
+        const int h = index / width;
+        const int w = index % width;
 
         /*The neighbours of the cell are checked*/
         for (int i = -1; i < 2; ++i) {

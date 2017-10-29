@@ -1,26 +1,49 @@
 #include <iostream>
+#include <fstream>
 #include "Window.h"
 #include "CPUCanvas.h"
 #include "OpenCLCanvas.h"
 #include "CUDACanvas.h"
 
 int main() {
-
+    std::ofstream myfile;
+    myfile.open ("results.txt");
     /* SDL2 Singleton Window */
     Window *window = Window :: getInstance();
 
     /* Variable needed to get all events*/
     SDL_Event event;
-    int x = 1280;
-    int y = 1280;
+    int h = 32;
+    int w = 64;
     /*Canvas that has the Conways Game of Life logic */
-    CPUCanvas canvas = CPUCanvas(x,y,720, 1280);
-    OpenCLCanvas openCLCanvas = OpenCLCanvas(x,y,720,1280);
-    CUDACanvas cudaCanvas = CUDACanvas(x,y,720,1280);
-
-    Timer fpsTimer;
+    CPUCanvas canvas = CPUCanvas(h,w,720, 1280);
+    OpenCLCanvas openCLCanvas = OpenCLCanvas(h,w,720,1280);
+    CUDACanvas cudaCanvas = CUDACanvas(h,w,720,1280);
+    int numIterations = 100;
     Timer capTimer;
-    fpsTimer.start();
+    for (int i = 0; i < numIterations; ++i) {
+        capTimer.start();
+        int cpuCount =  0;
+        while (capTimer.getTicks() <= 1000) {
+            canvas.update();
+            cpuCount++;
+        }
+        int openCLCount = 0;
+        capTimer.start();
+        while (capTimer.getTicks() <= 1000) {
+            openCLCanvas.update();
+            openCLCount++;
+        }
+        int cudaCount = 0;
+        capTimer.start();
+        while (capTimer.getTicks() <= 1000) {
+            cudaCanvas.update();
+            cudaCount++;
+        }
+        myfile << cpuCount << " " << openCLCount << " " << cudaCount << std::endl;
+
+    }
+
     /*Game loop*/
     do {
         capTimer.start();
@@ -42,35 +65,36 @@ int main() {
         // Clear the entire screen to our selected color.
         SDL_RenderClear(window->getRenderer());
         SDL_SetRenderDrawColor(Window::getInstance()->getRenderer(), 0, 0, 0, 200);
-        int cpuCount = 0;
-        while (capTimer.getTicks() <= 1000) {
-            canvas.update();
-            cpuCount++;
-        }
-        int openCLCount = 0;
-        capTimer.start();
-        while (capTimer.getTicks() <= 1000) {
-            openCLCanvas.update();
-            openCLCount++;
-        }
-        int cudaCount = 0;
-        capTimer.start();
-        while (capTimer.getTicks() <= 1000) {
-            cudaCanvas.update();
-            cudaCount++;
-        }
-
-        std::cout << "CPU: " << cpuCount << std::endl;
-        std::cout << "OpenCL: " << openCLCount << std::endl;
-        std::cout << "CUDA: " << cudaCount << std::endl;
+//        capTimer.start();
+//        int cpuCount = 0;
+//        while (capTimer.getTicks() <= 1000) {
+//            canvas.update();
+//            cpuCount++;
+//        }
+//        int openCLCount = 0;
+//        capTimer.start();
+//        while (capTimer.getTicks() <= 1000) {
+//            openCLCanvas.update();
+//            openCLCount++;
+//        }
+//        int cudaCount = 0;
+//        capTimer.start();
+//        while (capTimer.getTicks() <= 1000) {
+//            cudaCanvas.update();
+//            cudaCount++;
+//        }
+//
+//        std::cout << "CPU: " << cpuCount << std::endl;
+//        std::cout << "OpenCL: " << openCLCount << std::endl;
+//        std::cout << "CUDA: " << cudaCount << std::endl;
 //        //Update cells in canvas and then draw the living ones
 //        canvas.update();
 //        canvas.draw();
 //
 //        openCLCanvas.draw();
 //        openCLCanvas.update();
-//        cudaCanvas.draw();
-//        cudaCanvas.update();
+        cudaCanvas.draw();
+        cudaCanvas.update();
         //If frame finished early, add a delay so it can be seen
         int frameTicks = capTimer.getTicks();
         if( frameTicks < window->getScreenTicks() )
