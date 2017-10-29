@@ -2,6 +2,7 @@
 #include "Window.h"
 #include "CPUCanvas.h"
 #include "OpenCLCanvas.h"
+#include "CUDACanvas.h"
 
 int main() {
 
@@ -14,6 +15,7 @@ int main() {
     /*Canvas that has the Conways Game of Life logic */
     CPUCanvas canvas = CPUCanvas(36,64,720, 1280);
     OpenCLCanvas openCLCanvas = OpenCLCanvas(36,64,720,1280);
+    CUDACanvas cudaCanvas = CUDACanvas(36,64,720,1280);
 
     Timer fpsTimer;
     Timer capTimer;
@@ -45,8 +47,10 @@ int main() {
 //        canvas.update();
 //        canvas.draw();
 
-        openCLCanvas.draw();
-        openCLCanvas.update();
+//        openCLCanvas.draw();
+//        openCLCanvas.update();
+        cudaCanvas.draw();
+        cudaCanvas.update();
         //If frame finished early, add a delay so it can be seen
         int frameTicks = capTimer.getTicks();
         if( frameTicks < window->getScreenTicks() )

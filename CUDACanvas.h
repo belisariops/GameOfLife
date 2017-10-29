@@ -11,7 +11,7 @@
 class CUDACanvas : public Canvas {
 public:
     CUDACanvas(int height, int width, int screenWidth, int screenHeight);
-
+    void update();
 };
 
 
