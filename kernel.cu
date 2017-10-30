@@ -35,8 +35,8 @@ __global__ void update(int *A, int *B, int height, int width) {
 
 void setUp(int height, int width) {
     // Allocate memory for each vector on GPU
-    cudaMalloc((void **) &d_a, bytes);
-    cudaMalloc((void **) &d_b, bytes);
+    cudaMalloc((void **) &d_a, width*height);
+    cudaMalloc((void **) &d_b, width*height);
 }
 
 void destroy() {
