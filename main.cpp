@@ -5,22 +5,19 @@
 #include "OpenCLCanvas.h"
 #include "CUDACanvas.h"
 
-int main() {
-    std::ofstream myfile;
-    myfile.open ("results.txt");
-    /* SDL2 Singleton Window */
-    Window *window = Window :: getInstance();
 
-    /* Variable needed to get all events*/
-    SDL_Event event;
-    int h = 32;
-    int w = 64;
-    /*Canvas that has the Conways Game of Life logic */
+
+void getResults(int h, int w) {
+    std::ofstream myfile;
+    std::string fileName = "results_h";
+    fileName = fileName + std::to_string(h) + "_w" + std::to_string(w) + ".txt";
+    myfile.open (fileName);
     CPUCanvas canvas = CPUCanvas(h,w,720, 1280);
     OpenCLCanvas openCLCanvas = OpenCLCanvas(h,w,720,1280);
     CUDACanvas cudaCanvas = CUDACanvas(h,w,720,1280);
-    int numIterations = 100;
+    int numIterations = 2;
     Timer capTimer;
+    myfile << "CPU" << " " << "OpenCL" << " " << "CUDA" << std::endl;
     for (int i = 0; i < numIterations; ++i) {
         capTimer.start();
         int cpuCount =  0;
@@ -43,6 +40,24 @@ int main() {
         myfile << cpuCount << " " << openCLCount << " " << cudaCount << std::endl;
 
     }
+
+}
+
+
+int main() {
+    /* SDL2 Singleton Window */
+   //getResults(32,64);
+    Window *window = Window :: getInstance();
+
+    /* Variable needed to get all events*/
+    SDL_Event event;
+    int h = 32;
+    int w = 64;
+    /*Canvas that has the Conways Game of Life logic */
+    CPUCanvas canvas = CPUCanvas(h,w,720, 1280);
+    OpenCLCanvas openCLCanvas = OpenCLCanvas(h,w,720,1280);
+    CUDACanvas cudaCanvas = CUDACanvas(h,w,720,1280);
+    Timer capTimer;
 
     /*Game loop*/
     do {
