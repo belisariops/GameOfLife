@@ -5,9 +5,17 @@
 #include "CUDACanvas.h"
 
 extern void updateCuda(int *A, int *B, int height, int width) ;
+extern void setUp(int heigt, int width);
+extern void destroy();
 
 CUDACanvas::CUDACanvas(int height, int width, int screenWidth, int screenHeight) : Canvas(height, width, screenWidth,
-                                                                                          screenHeight) {}
+                                                                                          screenHeight) {
+    setUp(height, width);
+}
+
+CUDACanvas ::~CUDACanvas() {
+    destroy();
+}
 
 void CUDACanvas::update() {
     //Call the kernel wrapper

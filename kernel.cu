@@ -2,6 +2,10 @@
 
 #include <device_launch_parameters.h>
 #include <cuda_runtime_api.h>
+// Device input vectors
+int *d_a;
+//Device output vector
+int *d_b;
 
 __device__ int mod(int a, int b) {
     return a >= 0 ? a%b :  ( b - abs ( a%b ) ) % b;
@@ -29,18 +33,24 @@ __global__ void update(int *A, int *B, int height, int width) {
     }
 }
 
+void setUp(int height, int width) {
+    // Allocate memory for each vector on GPU
+    cudaMalloc((void **) &d_a, bytes);
+    cudaMalloc((void **) &d_b, bytes);
+}
+
+void destroy() {
+    // Release device memory
+    cudaFree(d_a);
+    cudaFree(d_b);
+}
+
 void updateCuda(int *A, int *B, int height, int width) {
-    // Device input vectors
-    int *d_a;
-    //Device output vector
-    int *d_b;
+
 
     // Size, in bytes, of each vector
     size_t bytes = height*width*sizeof(int);
 
-    // Allocate memory for each vector on GPU
-    cudaMalloc((void **) &d_a, bytes);
-    cudaMalloc((void **) &d_b, bytes);
 
     // Copy host vectors to device
     cudaMemcpy(d_a, A, bytes, cudaMemcpyHostToDevice);
@@ -66,8 +76,5 @@ void updateCuda(int *A, int *B, int height, int width) {
 
 
 
-    // Release device memory
-    cudaFree(d_a);
-    cudaFree(d_b);
 
 }
