@@ -9,15 +9,18 @@
 
 void getResults(int h, int w) {
     std::ofstream myfile;
-    std::string fileName = "results_h";
+    std::string fileName = "results_restrain_ifs_h";
     fileName = fileName + std::to_string(h) + "_w" + std::to_string(w) + ".txt";
     myfile.open (fileName);
+
     CPUCanvas canvas = CPUCanvas(h,w,720, 1280);
+    std::cout << "aaaaa" << std::endl;
     OpenCLCanvas openCLCanvas = OpenCLCanvas(h,w,720,1280);
     CUDACanvas cudaCanvas = CUDACanvas(h,w,720,1280);
-    int numIterations = 2;
+
+    int numIterations = 20;
     Timer capTimer;
-    myfile << "CPU" << " " << "OpenCL" << " " << "CUDA" << std::endl;
+    myfile << "CPU" << " " << " OpenCL" << " " << "CUDA" << std::endl;
     for (int i = 0; i < numIterations; ++i) {
         capTimer.start();
         int cpuCount =  0;
@@ -41,12 +44,18 @@ void getResults(int h, int w) {
 
     }
 
+    myfile.close();
+
 }
 
 
 int main() {
     /* SDL2 Singleton Window */
-   //getResults(32,64);
+    int a[10] = {16,20,32,64,100,128,256,512,1024,1280};
+    int b[10] = {16,20,64,64,100,128,256,512,1024,720};
+    for (int i = 0; i < 10; ++i) {
+        getResults(a[i],b[i]);
+    }
     Window *window = Window :: getInstance();
 
     /* Variable needed to get all events*/
